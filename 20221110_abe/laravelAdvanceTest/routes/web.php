@@ -20,12 +20,16 @@ Route::get('/', function () {
 });
 
 Route::get('home', [TodoListController::class, 'index']);
+Route::get('/search', [TodoListController::class, 'migrate']);
+
 Route::post('/add', [TodoListController::class, 'add']);
 Route::post('/update', [TodoListController::class, 'update']);
 Route::post('/delete', [TodoListController::class, 'delete']);
 Route::post('/logout',[TodoListController::class,'logout']);
-Route::get('/search', [TodoListController::class, 'migrate']);
 Route::post('/search', [TodoListController::class, 'search']);
+
+
+
 
 
 Route::get('/dashboard', function () {

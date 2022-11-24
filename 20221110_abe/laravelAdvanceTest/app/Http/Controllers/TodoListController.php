@@ -87,13 +87,30 @@ class TodoListController extends Controller
 
     public function search(Request $request)
    {
+    
+
         $search_tag_data = $request->tags_id;
         $search_todo_data = $request->todo_value;
         $txt = ['search_tag_data'=> $search_tag_data, 
                 'search_todo_data' => $search_todo_data];
         $request->session()->put('txt',$txt);
 
-        $sraech_datas = Todo::where('todo_value','LIKE BINARY',"%{$search_todo_data}%")->where('tags_id','LIKE BINARY',"%{$search_tag_data}%")->get();
+
+        $query = Todo::query();
+
+        if (isset($search_tag_data)) {
+                $query->where('tags_id', $search_tag_data);
+        }
+
+        if(isset($search_todo_data)){
+            $query->where('todo_value','LIKE BINARY',"%{$search_todo_data}%");
+        }
+
+    
+        
+
+        $sraech_datas = $query->orderBy('tags_id','asc')->get();
+  
         $tags = Tag::all();
         $user = Auth::user();
         return view('search',
